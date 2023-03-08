@@ -18,8 +18,8 @@ ref.form.addEventListener('submit', onFormSubmit);
 
 function onFormInput() {
     const data = {
-        email: ref.inputEmail.value,
-        message: ref.inutMessage.value,
+        email: ref.inputEmail.value.trim(),
+        message: ref.inutMessage.value.trim(),
     };
 
     localStorage.setItem('feedback-form-state', JSON.stringify(data));
@@ -38,7 +38,7 @@ function onFormSubmit(event) {
     const data = {};
 
     formData.forEach((value, name) => {
-        data[name] = value.trim();
+        data[name] = value;
     });
 
     console.log(data);
