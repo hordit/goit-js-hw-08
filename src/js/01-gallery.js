@@ -28,12 +28,8 @@ function createGalleryMarkup(items) {
 }
 
 let lightbox = new SimpleLightbox('.gallery a', {
-    enableKeyboard: true,
-    captions: true,
-    captionsSelector: 'img',
-    captionType: 'attr',
     captionsData: 'alt',
-    captionPosition: 'bottom',
     captionDelay: 250,
 });
+
 console.log(galleryItems);
