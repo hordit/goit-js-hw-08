@@ -38,7 +38,7 @@ function onFormSubmit(event) {
     const data = {};
 
     formData.forEach((value, name) => {
-        data[name] = value;
+        data[name] = value.trim();
     });
 
     console.log(data);
