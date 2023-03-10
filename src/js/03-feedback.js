@@ -5,7 +5,10 @@ const ref = {
     inutMessage: document.querySelector('[name="message"]'),
     form: document.querySelector('.feedback-form'),
 };
+
 const savedData = localStorage.getItem('feedback-form-state');
+
+console.log('savedData:', savedData);
 
 if (savedData) {
     const parsedData = JSON.parse(savedData);
