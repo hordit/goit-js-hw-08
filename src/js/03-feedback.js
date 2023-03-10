@@ -1,19 +1,25 @@
 import throttle from 'lodash.throttle';
 
 const ref = {
-    inputEmail: document.querySelector('[name = "email"]'),
+    inputEmail: document.querySelector('[name="email"]'),
     inutMessage: document.querySelector('[name="message"]'),
     form: document.querySelector('.feedback-form'),
 };
+const STORAGE_KEY = 'feedback-form-state';
 
-const savedData = localStorage.getItem('feedback-form-state');
+ref.form.addEventListener('input', throttle(onFormInput, 500));
+ref.form.addEventListener('submit', onFormSubmit);
 
-console.log('savedData:', savedData);
+let savedData;
+try {
+    savedData = JSON.parse(localStorage.getItem(STORAGE_KEY));
+} catch(error) {
+    console.error('Error parsing saved data:', error);
+}
 
 if (savedData) {
-    const parsedData = JSON.parse(savedData);
-    ref.inputEmail.value = parsedData.email || '';
-    ref.inutMessage.value = parsedData.message || '';
+    ref.inputEmail.value = savedData.email || '';
+    ref.inutMessage.value = savedData.message || '';
 }
 
 ref.form.addEventListener('input', throttle(onFormInput, 500));
@@ -25,7 +31,11 @@ function onFormInput() {
         message: ref.inutMessage.value.trim(),
     };
 
-    localStorage.setItem('feedback-form-state', JSON.stringify(data));
+   try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch(error) {
+    console.log('Error saving data to localStorage:', error);
+  }
 };
 
 function onFormSubmit(event) {
@@ -45,6 +55,12 @@ function onFormSubmit(event) {
     });
 
     console.log(data);
-    localStorage.removeItem('feedback-form-state');
+
+    try {
+    localStorage.removeItem(STORAGE_KEY);
+    } catch(error) {
+        console.log('Error removing saved data from localStorage:', error);
+    }
+    
     ref.form.reset();
 }
